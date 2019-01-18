@@ -340,16 +340,16 @@ def admm2d(y, psf_in, tau, niter, options = 'default'):
                 ax[0,1].semilogy(cost)
                 ax[0,1].set_title('cost')
                 
-                ax[0,2].semilogy(dual_resid_s)
-                ax[0,2].semilogy(primal_resid_s)
-                ax[0,2].set_title('crop (s) residuals, mu1 = %.2f' %mu1)
+                ax[0,2].semilogy(dual_resid_s, color='b')
+                ax[0,2].semilogy(primal_resid_s, color='r')
+                ax[0,2].set_title('crop (s) residuals, mu1 = %.2f (dual = blue)' %mu1)
 
-                ax[1,0].semilogy(dual_resid_u)
-                ax[1,0].semilogy(primal_resid_u)
+                ax[1,0].semilogy(dual_resid_u, color='b')
+                ax[1,0].semilogy(primal_resid_u, color='r')
                 ax[1,0].set_title('TV (u) residuals, mu2 = %.2f'  % mu2)
 
-                ax[1,1].semilogy(dual_resid_w)
-                ax[1,1].semilogy(primal_resid_w)
+                ax[1,1].semilogy(dual_resid_w, color='b')
+                ax[1,1].semilogy(primal_resid_w, color='r')
                 ax[1,1].set_title('Nonnegativity (w) residuals, mu3 = %.2f'  % mu3)
 
                 ax[1,2].imshow(psf_in)
@@ -511,28 +511,29 @@ def admm2d_learn(y, psf_in, tau, niter, mu1, mu2, mu3, options = 'default'):
 #             Vmult = 1/(CtC + mu1[n+1])
 
         sk = skp;
-        cost.append(np.linalg.norm(crop(Hskp)-y,'fro')**2 + tau*TVnorm(skp))
+        cost.append(np.linalg.norm(crop(Hskp)-y,'fro')**2 + tau[n]*TVnorm(skp))
+
         if disp_interval != 0:
             if n % disp_interval == 0: 
 
 
                 ax[0,0].imshow(sk)
-                ax[0,0].set_title('cost. Mu update: {}'.format(mu_update))
+                ax[0,0].set_title('Recon')
 
 
                 ax[0,1].semilogy(cost)
                 ax[0,1].set_title('cost')
                 
-                ax[0,2].semilogy(dual_resid_s)
-                ax[0,2].semilogy(primal_resid_s)
-                ax[0,2].set_title('crop (s) residuals, mu1 = %.2f' %mu1[n])
+                ax[0,2].semilogy(dual_resid_s, color='b')
+                ax[0,2].semilogy(primal_resid_s, color='r')
+                ax[0,2].set_title('crop (s) residuals, mu1 = %.2f, (dual = blue)' %mu1[n])
 
-                ax[1,0].semilogy(dual_resid_u)
-                ax[1,0].semilogy(primal_resid_u)
+                ax[1,0].semilogy(dual_resid_u, color='b')
+                ax[1,0].semilogy(primal_resid_u, color='r')
                 ax[1,0].set_title('TV (u) residuals, mu2 = %.2f'  % mu2[n])
 
-                ax[1,1].semilogy(dual_resid_w)
-                ax[1,1].semilogy(primal_resid_w)
+                ax[1,1].semilogy(dual_resid_w, color='b')
+                ax[1,1].semilogy(primal_resid_w, color='r')
                 ax[1,1].set_title('Nonnegativity (w) residuals, mu3 = %.2f'  % mu3[n])
 
                 ax[1,2].imshow(psf_in)
